@@ -1,0 +1,323 @@
+\vspace{-0.01in}
+
+\section{Introduction}
+\label{sec:intro}
+
+Optimizing the battery drain of mobile apps helps to extend the
+mobile device battery life which is critical to the mobile experience
+of the 5+ billion phone users (over half are smartphones)~\cite{gsma2019}.
+Optimizing the battery drain of mobile
+apps requires optimizing the battery drain of all major power-hungry
+device components, including CPU, GPU, display, WiFi/LTE,
+GPS, and hardware decoder. After over a decade of phone evolution, display
+has remained as one of the major power-draining components in modern
+smartphones~\cite{dong2009current,dong:2011chameleon,chen:2013:display,wan:2017:displayenergy,chen:2016:dac,chan:2016:image,crayon:eurosys16}.
+
+% The display technology has also evolved over the years.
+The latest display technology, Organic light-emitting diode (OLED)~\cite{oled:2003,oled:2004},
+uses light-emitting diode as pixels and therefore omits the need for
+external backlight used in its predecessor LCD, and in doing so
+provides much better power efficiency than LCD.  Due to its power
+efficiency and several other advantages (thinner, lighter, and more
+flexible) over LCD and LED, OLED has seen wide adoption in high-end and mid-range
+smartphones.
+
+Since the OLED power draw is directly related to the displayed
+content, the real potential of OLED in terms of power savings lies in
+exploiting the app UI color design, \ie how to design the app UI 
+to use pixel colors that result in less OLED display power draw.
+These include manual designs by app developers as well as
+automatic color transformations~\cite{dong:ispled09,dong:2011chameleon,crayon:eurosys16}.
+One of the extreme examples of color transformation to save display energy of mobile
+devices is the recent wide adoption of 
+dark-themed color contents, known as dark mode,\footnote{An old idea first supported in modern OS as early as 1991 (Apple's System 7 OS).}
+% which are known to draw much less power than white-theme color contents. 
+%  the mobile industry did not catch on until late 2018
+by both Android and iOS which announced dark mode as one of major
+features in their 2019 OS
+update~\cite{googledevsummit2018,appleaccouncedarkmode}, and app
+vendors who quickly rolled out dark mode UI options in their latest
+app releases~\cite{darkModeActicle1,darkModeActicle2,darkModeActicle3,darkModeActicle4,darkModeActicle5,darkModeActicle6,darkModeActicle7}.
+
+Despite the industry's major push for dark mode, it remains unclear
+how much power and energy savings dark mode will bring to the apps, as
+the OLED display power saving from switching from the normal (or
+light) to dark mode depends on the displayed content, which can vary
+significantly from one app to another, and from one app activity to
+the next. More generally, the industry is lacking an OLED display
+power profiling tool that can accurately estimate the OLED display
+power draw and attribute it to the individual UI components.  Such a
+tool will enable an app developer to gain instant insight into how different
+UI designs affect the OLED display power draw in running the app on
+specific mobile devices and optimize the app UI design accordingly.
+
+\if 0
+In this paper, we undertake to our knowledge the first measurement
+study of the energy savings of dark mode for a set of preinstalled Google/Android system
+apps that recently rolled out support for dark mode.
+% ，as well as the upcoming Android Q (using its beta release) dark theme.
+\fi
+
+In this paper, we present the design and implementation
+of two OLED power management tools:
+an accurate per-frame OLED display power profiler, \namee, that helps
+developers to gain insight into the impact of different app UI designs
+on its OLED power draw, and an enhanced Android Battery called Battery+ that
+helps phone users to understand and manage phone
+display energy drain, for example, from different app and display
+configurations such as dark mode and screen brightness. A major challenge in
+designing both tools lies
+in designing an accurate and robust
+OLED power model that accurately estimates the display power draw
+as a function of the displayed content on any device.
+%   , as either the
+%   external power meter or the internal power sensor can only measure the
+%   total phone power draw by all its active components; (2) We need to
+%   identify all the UI components of a displayed frame, \eg separating
+%   dynamic objects from static objects, in order to calculate 
+%   the OLED power draw by each UI component.
+
+\if 0
+An accurate OLED power model enables app developers to
+% isolate and
+quantify the OLED display power/energy savings which has many
+applications, such as studying the power savings from switching to
+dark mode for any apps running in the lab or ``in the wild'' on real
+users' phones
+% \footnote{We have developed an app that records the
+% screen and accurately caculates the OLED energy drain throughout the   day.}
+and more generally energy profiling of mobile
+apps~\cite{appscope,zhang2010accurate,shye2009into,pathak:eurosys12,mittal:mobicom12,androidprofiler}
+which performs component-wise energy accounting at the app source-code
+level.
+\fi
+
+
+Since power modeling of OLED displayed has been studied
+over the past decade, first on external display then
+earlier smartphones~\cite{dong2009current,kim2013runtime,park2015accurate},
+we first study {\em if the prior-art power models of OLED display proposed
+  in the past decade can accurately capture the power behavior of OLED
+  displays on modern smartphones.}  To answer this question, we
+conduct a measurement study to characterize the power behavior of OLED
+displays on three representative smartphones from 
+three recent generations, Pixel 2 (2017), Moto Z3 (2018), and Pixel 4 (2019).
+%
+Our measurement study reveals
+unique power draw behavior of modern phone OLED displays: (1) The OLED
+display power draw violates the superposition property assumed
+in~\cite{dong2009current}, \eg the power draw in displaying
+the white color can be far less than the simple summation of those in
+displaying the three base colors: red, green and blue (after removing
+base power).  (2) The OLED
+display power often violates the  monotonicity principle, that
+the power draw in displaying canonically larger RGB values in the color
+space should be higher.
+\forjnl{(3) New features in
+recent phones such as color mode, color correction
+as well as adjusting the hardware brightness button
+directly affect the OLED display power draw
+via color transformation in hardware composer,
+which does not change the pixel
+values in the frame buffer (what is recordable from the OS-provided
+API).
+}
+The two findings suggest that previously proposed
+linear and non-linear OLED power models are unlikely to achieve high
+prediction accuracy, as confirmed by our experiments.
+\forjnl{
+  and the third suggests that any OLED power model based on frame buffer pixel values
+needs to adjust for color transformations that can happen in the hardware composer.
+}
+
+Second, we study {\em how to develop new practical OLED power models that
+  can accurately and robustly capture the power behavior of modern smartphone OLED
+  displays.}  To develop such a power model,
+we first unearth the root cause for why previous models fail:
+%we    plot the OLED
+%    power draw in displaying static chromatic images of pixels that span
+%    the 3-D color space and found
+% we first uncovered that the fundamental reason that
+linear regression of subpixel power functions (which are linear in linear RGB
+values)
+% \footnote{Linear RGB values are RGB valeus with gamma-correction.}, respectively)
+cannot capture the OLED power behavior of modern OLED displays
+% is that
+because any linear combinations of linear functions 
+can only fit a flat plane, while the OLED power
+values across the color space do not fall into a flat plane.
+
+Our new OLED power model is based on a key observation that though the
+pixel power values in the color space do not fall in a plane,
+they form a reasonably smooth surface.  Therefore, if we cut
+the 3-D color space into small subgrids, the pixel power values within
+each subgrid are likely to fit closely in a flat plane and thus can be
+fitted well using linear regressions of the (linear) subpixel power
+functions. We experimentally show that our new piecewise OLED power model reduces the
+OLED prediction error of the prior art~\cite{park2015accurate} by
+5.1$\times$, 5.5$\times$ and 4.4$\times$ for dark
+and 4.2$\times$, 2.3$\times$ and 2.5$\times$ for light mode for the three phones,
+respectively, for a set of activities across 6 popular google apps.
+%% NLM model vs P-NLM model
+
+% 7.2$\times$-4.6$\times$,
+% from
+% \nexuserror, \pixelerror, and \motoerror,
+% down to 3.3\%, 3.3\%, and 2.9\% on the three phones,
+% respectively, for a set of 100 images with diverse graphical content.
+
+%   The new OLED power model has many potential applications, such as
+%   building fine-grained energy which requires accurate power model for
+%   every power-hungry phone component.
+%   profiler~\cite{appscope,zhang2010accurate,shye2009into,pathak:eurosys12,mittal:mobicom12,androidprofiler}.
+
+Third, we design and implement the two tools on top of our new OLED
+power model. \name accurately breaks down the OLED display power in
+displaying a frame among its UI components and faces the challenge of
+identifying all the UI components of a displayed frame, \eg an app
+activity.
+% , in order to calculate the OLED power draw by each UI component.
+We design \name to use only standard Android services so
+it is portable to any unmodified Android versions
+{without superuser access}.  Battery+ replaces
+the simple screen energy accounting of Android Battery with an
+accurate, per-app screen power and energy estimator.  Like Android
+Battery, it runs in real time in the background and thus needs to have low
+overhead. We carefully apply pixel sampling to both screen recording
+and model application to control its average CPU utilization to be
+only 1.1\%, 0.9\%, and 0.6\% on Pixel 2, Moto Z3, and Pixel 4, respectively,
+while minimally affecting the power estimation accuracy.
+
+%  to identify UI components
+%  , that accurately breaks down the OLED power draw
+% in displaying a frame among its constituting UI components.  We design
+% \name to be easy-to-use -- it runs as an app,
+% portable to different Android versions -- it only uses standard Android services
+%  to identify UI components, and efficient by using pixel sampling -- analyzing a frame takes
+% less than 8 seconds on all three phones.
+
+%    , and an Enhanced
+%    Android Battery that accurately measures the screen energy of all apps
+%    running on the phone and assists phone users to adjust screen
+%    brightness to elongate battery life.
+
+Finally, 
+%   how the OLED power profiler can be used by
+%   developers and phone users to understand and optimize the battery drain
+%   of different app UI designs,
+we showcase the usage of the two tools by performing a case study of the dark mode
+power saving that answers {\em how much does dark mode reduce the
+  OLED display power draw and energy drain for real apps?}  In
+particular, we study the power consumption of a set of 6
+ Google apps {(each with 1B+ downloads)} in two ways.  First, {\em from the phone user's
+  perspective,} we analyze the power draw of each Google app under a
+typical user interaction using Battery+.
+%   that lasts about 40 seconds which is driven
+%   by UIAutomator 2~\cite{uianimator} and Appium~\cite{appium} to ensure
+%   the same user interactions are carried out under light and dark modes.
+Battery+ shows that (1) switching from light to dark mode
+significantly reduces the average OLED power draw across all apps,
+though the reduction varies significantly among the apps and the phones, ranging
+between 4\%-34\% (average 24\%), 12\%-35\% (average 25\%), and
+12\%-24\% (average 19\%) for 50\% brightness level,
+%    , and
+%    48\%-67\% (average 58\%), 
+%    64\%-81\% (average 72\%),
+%    and 62\%-76\% (average 68\%) for 100\% brightness level,
+on the 3 phones, respectively.  (2) The significant OLED power reduction
+translates into moerate reduction in the total phone power draw, ranging between
+-3\%-15\% (average 7\%),
+-12\%-13\% (average 5\%),
+and 0\%-15\% (average 10\%) under 50\% brightness level
+%  2\%-29\% (average 15\%),
+%  16\%-46\% (average 32\%),
+%  and 24\%-59\% (average 43\%)
+across the apps on the 3 phones, respectively.
+
+Second, {\em from the app developer's perspective}, we use \name to analyze how
+much power the UI design change of each activity in dark mode saves in
+the 6 Google apps.
+%  We manually navigate each of
+%  the apps to stop at all its major activities when running under 
+%  dark and light mode, and capture the screen via screencap, and
+%  then apply our new OLED power model to the captured screens to
+%  calculate the OLED power draw.
+\if 0
+(1) Switching from light mode to dark mode significantly reduces the OLED power
+draw of the app activities, ranging between 48\%--67\% (average 58\%),
+64\%--81\% (average 72\%), and 62\%--76\% (average 68\%),
+for brightness level 100\% across the apps on the 3 phones, respectively,
+%  (2) The drastic OLED power saving in switching to dark mode 
+which translates into significant saving of whole phone power draw,
+on average 26\%, 39\%, and 47\% across the apps on the 3 phones, respectively.
+(2) More importantly,
+\fi
+Our study shows how
+\name quantifies and displays the power saving for each UI component
+in switching to the new color scheme in dark mode, allowing app developers
+to easily experiment with the design-power tradeoff of
+alternative dark mode designs.
+
+%  To our best knowledge, this is the first public measurement study of
+%  OLED display power savings by dark mode on smartphones.
+
+% Fourth, {\em can we develop design guidelines for app vendors who are thinking about developing dark mode and want to estimate the potential energy saving before investing the development effort?} 
+
+We summarize the contributions of our study as follows:
+\begin{itemize}[leftmargin=*]
+  \item We experimentally characterize the unique power draw behavior
+    of OLED displays on 3 representative modern smartphones and show
+    how they violate the underlying assumptions made in prior OLED
+    power models proposed in the past decade.
+  \item We propose a new piecewise OLED power model and experimentally
+    show that it reduces the prediction error of the prior art by 
+    \pixeltwoerrorreduction,
+    \motozthreeerrorreduction, and
+    \pixelfourerrorreduction
+    on Pixel 2, Moto Z3, and Pixel 4, respectively.
+  \item Using our new model, we develop a per-frame OLED
+    power profiler that enables developers to instantly understand the
+    OLED power draw breakdowns of activity UI designs to guide UI power optimization and an enhanced Android Battery that enables phone users to
+understand and manage phone
+display energy drain, for example, from different app and display
+configurations such as dark mode and screen brightness.
+%     , and an
+%     Enhanced Android Battery that accurately measures the screen
+%     energy of all apps running on the phone and assists phone users to
+%     adjust screen brightness to elongate battery life.  
+  \item Using the two tools, we present to our knowledge
+    the first public study of the OLED power and phone power
+    savings in switching from light mode to dark mode for a
+    set of preinstalled Google apps {(each with 1B+ downloads).}
+  \end{itemize}
+
+
+
+
+\if 0
+Light-on-dark color scheme, or dark mode in short, refers to the color
+scheme that uses light-colored text, icons, and graphical user
+interface elements on a dark background.  While dark mode
+is known to reduce the power on display technologies in general,
+its saving on OLED is particularly pronounced, due to the unique power
+characteristics of OLED displays.  For this reason, both Google and
+Apple announced in late 2018 that dark mode would be made available on
+Android and iOS devices. Since then an increasingly number of apps
+(by toggling ``Enable Dark Theme'' in the app's settings) has rolled out
+the dark mode option, and the Android system UI also added the dark
+theme.
+
+While it is generally understood that using dark color will lower the OLED
+display power consumption, it is much less clear on how much
+energy savings will dark mode bring to individual apps, as the
+OLED display power saving in switching from light to 
+dark mode depends on the displayed content and which may vary
+significantly from one app to another. In this section, we conduct a
+measurement study of the energy savings of dark mode for a set of
+preinstalled Google apps which are hugely popular and thus will affect
+a large number of mobile users by adopting dark mode.
+The improved accuracy of the new model comes with negligible overhead:
+64KB for storing 4K 4-coefficient linear regression models
+and 678ms - 1100ms in applying the model to one complete frame on the 3 phones.
+
+\fi

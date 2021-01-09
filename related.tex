@@ -1,0 +1,49 @@
+\section{Related Work}
+\label{sec:related}
+
+We already discussed prior work on OLED power modeling in
+\S\ref{sec:non_linear}. Below, we discuss previous work on optimizing
+OLED power draw via changing screen colors.
+
+{\bf Color remapping.}
+Several studies explore the simple idea of selectively dimming portions
+of the OLED display panel according to the user's focus of attention
+(FOA)~\cite{tan:ubicom13,chen:hotpower14} which are generally hard to
+predict accurately.
+%
+More recent work focus on color remappings that exploit
+approximation of original color content that have lower OLED display
+power draw. In particular, application-specific color remapping
+modifies individual applications such as games~\cite{anand:mobisys11},
+web browsers~\cite{dong:ispled09,li:esec15} and web
+servers~\cite{li:icse2014} to carry our pre-coded color remappings,
+while system-level color remapping~\cite{crayon:eurosys16}
+transparently generates color mappings (with controllable
+quality degradation) for dynamically generated images before
+displaying them on the screen.
+
+{\bf Dark mode.}
+%  Many have studied the color transformations
+%  ~\cite{darkmode:stanley2016crayon} to reduce number of bright pixels
+%  on the display by using the content on the screen to create dark modes
+%  by applying color transformation ~\cite{banman2019smartnight}
+%  ~\cite{dong:2011:chameleon} ~\cite{darkmode:dong2009power} These
+%  techniques are based on heuristic and may be computationally
+%  expensive.
+Dark mode can be viewed as a special case
+of color transformation that reduces screen power
+by explicitly flipping white-themed background colors to dark-themed colors.
+Both Google with Android Q~\cite{darkmode:androidQ} and
+Apple with iOS 13~\cite{darkmode:iOS13_1,darkmode:iOS13_2} support
+dark mode.  Google is also working on Force Dark
+Mode~\cite{darkmode:forcedark} which will apply dark mode on apps
+that do not support the mode yet.
+%
+Dark mode is also being adopted in non-mobile platforms such as
+laptops and in web browsers~\cite{darkmode:web_browsers} which
+perform color inversion as most web pages have light
+background with black text.
+%  This is turns out to be tricky as in web browser especially graphics once has
+%  to be handled such that they are not affected.
+Chrome ~\cite{darkmode:chrome} has added flag settings to force dark mode
+and intelligent implementation to find and not invert image content.

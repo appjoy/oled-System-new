@@ -1,0 +1,43 @@
+\section{Conclusion}
+\label{sec:conc}
+
+In this work, we first presented a measurement study of the power behavior
+of OLED displays on modern smartphones.
+Out study shows they violate both the
+superposition property and the monotonicity property and explains the
+accuracy limitations of prior OLED power models. We then presented a
+novel OLED power model based on a key
+insight that the OLED power draw is relatively smooth within small
+subgrids of the large 3-D sRGB color space, and hence each can be fitted
+well via linear regressions on the linear subpixel power functions.
+Our new OLED power model reduces the prediction error of prior models
+from 39.7\% to 7.5\% on average across 3 recent generations of Android
+phones.
+Using the new OLED power model, we developed two OLED power
+profiling tools: a per-frame OLED power profiler and an enhanced Android Battery.
+% that accurately accounts for per-app screen energy.
+%
+Further, we performed to our knowledge the first power saving
+measurement of the emerging dark mode for a set of 6 Google
+apps to showcase how the two tools can help developers
+and phone users to understand and optimize the battery drain of
+different app GUI designs.
+%We plan to open source both tools to the Android developers community.
+The \appwithlink app
+% \href{https://play.google.com/store/apps/details?id=com.pdeveloper.pcav5}{\name app}
+has been released in Google Play, and
+we
+% have the \name app in Google Play and
+plan to open source \name in \url{github} and Battery+ into AOSP
+to facilitate further research and development.
+
+
+
+\if 0
+Our study shows that at brightness level 50\%
+switching to dark mode reduces the OLED
+power draw on average by 45\%, 24\% and 21\% on Nexus 6,
+Pixel 2 and Moto Z3 for the set of
+Google apps which translates into 13\%, 6\% and 7\%
+average total phone power draw reduction on the 3 phones, respectively.
+\fi
