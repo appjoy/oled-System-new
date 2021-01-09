@@ -73,7 +73,7 @@ Table~\ref{tab:phones}.
 	\caption{OLED display power in displaying one-color images on three phones (with default color mode).
 		(LM: linear model as in Eqn.~\ref{eq:linear_equation},
 subt		 LMLR: linear model with linear regression, NLM: Non-Linear Model).
-\comment{the green line for white is not visible. chaneg it to black. also, can you make the lines thicker? finally, the legends are wrong: LM is rpeated 3 tiems}}
+}
         \vspace{-0.1in}
         \label{fig:initial_evaluation_2}
 \end{figure*}
@@ -223,6 +223,7 @@ we measure the OLED power consumed by
 and the 3-channel color white, with varying intensities (sRGB values from 0 to 255).
 
 \paragraph{Findings.}
+\if 0
 \dcomment {
 Figures~\ref{fig:initial_evaluation_2}(a)--\ref{fig:initial_evaluation_2}(c)
 show the measured OLED display power.
@@ -260,8 +261,9 @@ These results show that
   hardware module.
   
 CHANGED THIS BECAUSE THE MAXIMUM ERROR IS NOT AT Linear RGB 1.0}
+\fi
 
-\dacomment{
+{
 Figures~\ref{fig:initial_evaluation_2}(a)--\ref{fig:initial_evaluation_2}(c)
 show the measured OLED display power. Due to the gamma-correction in sRGB standard,
 the subpixel power draw is known to be nonlinear in the sRGB values.
@@ -273,8 +275,8 @@ Figures~\ref{fig:initial_evaluation_2}(a)--\ref{fig:initial_evaluation_2}(c) sho
 the difference between sum of the subpixel power draw (without duplicating base power)
 and the measured power draw for white
 varies across the color intensity reaching
-a maximum difference of 92\%, 66\% and 43\% at
-0 (14), 0.04 (59) and 0.01 (25) linear RGB values (sRGB value) for the 3 phones respectively.
+a maximum of 92\%, 66\% and 43\% at
+0 (14), 0.04 (59) and 0.01 (25) linear RGB values (sRGB values) for the 3 phones, respectively.
 % widens for Moto Z3 with color intensity but decreases for Pixel 2 and Pixel 4.
 % widens with the color intensity,
 % 1.0 (sRGB value of 255)
@@ -291,20 +293,20 @@ observed a large deviation between the sum of the power individually observed fo
 red compared to the actual measurement; the gap
 % widens with
 varies across the color intensity, reaching
-55\%, 45\% and 26\% at 0.05 (64), 0.05 (67) and 0.01 (27) linear RGB values (sRGB value)
+55\%, 45\% and 26\% at 0.05 (64), 0.05 (67) and 0.01 (27) linear RGB values (sRGB values)
 % at linear RGB value 1.0
 for the three phones, respectively.
-Simillar gaps are also observed for yellow 
-60\%, 16\% and 18\% at 0.05 (68), 0.10 (91) and 0.02 (43) linear RGB values (sRGB value)
-and for cyan
-44\%, 17\% and 21\% at 0.0 (19), 0.23 (130) and 0.01 (34) linear RGB values (sRGB value)
-respectively for the three phones.
+Simillar gaps are also observed for yellow, \eg of
+60\%, 16\% and 18\% at 0.05 (68), 0.10 (91) and 0.02 (43) linear RGB values (sRGB value),
+and for cyan, of
+44\%, 17\% and 21\% at 0.0 (19), 0.23 (130) and 0.01 (34) linear RGB values (sRGB values),
+for the three phones, respectively.
 These results show that
 %
-{\em subpixel powers are not additive.} The likely reason can be that the
+{\em subpixel powers are not additive.} The likely reason is that the
   subpixels utilize common driving circuits within the display
   hardware module.
-ADDED}
+}
   
 \subsection{Monotonicity Property}
 \label{subsec:monoproperty}
@@ -360,11 +362,11 @@ Interestingly, on all three phones, we found many instances of power
 measurements that violate the monotonicity property.  Table~\ref{tab:initial_evaluation_3} lists a few samples for each of the 3
 phones, where each row lists the power draw for two color vectors, the
 second being canonically larger yet drawing less power than the first.
-For example, on Pixel 4, the OLED power draw for RGB value (128, 16, 16) should
-be higher than that for (128, 16, 0). Instead,
-our measured value for the former, 89mA, \comment{The numbers here are all wrong??? FIXED}
-is 1.26X
-lower than that for the later, 113mA.
+For example, on Pixel 4, the OLED power draw for RGB value (32, 16, 16) should
+be higher than that for (32, 0, 16). Instead,
+our measured value for the former, 89mA, 
+is 1.09X
+lower than that for the later, 97mA.
 Since this pattern happens on all three phones,
 it is unlikely due to manufacturing defect.
 We conjecture\footnote{We could not find any white papers from the OLED vendors

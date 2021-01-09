@@ -227,6 +227,7 @@ estimate the power draw for the pixel;
 (4) Sum up the estimated power for all the pixels
 (Eqn.~\ref{eq:linear_equation0}).
 
+\if 0
 \dcomment {
 On the same three phones,
 once a frame is recorded in memory, Steps 2--4 only take
@@ -241,29 +242,9 @@ enhanced Android Battery (\S\ref{subsec:tool2})}
 %  every pixel using the LMLR model in our highly optimized C
 %  implementations takes 1 second on a Dell laptop.  }
 
-\if 0
-Pixel sampling was shown to effectively capture the distribution of
-the pixel colors in a frame and reduce the cost of model application
-for estimating the OLED power draw for a frame with a minimal impact
-on accuracy~\cite{dong2009current}. The basic idea is to select a
-subset of the pixels from the full frame, calculate their average
-pixel power using the power model, and then extrapolate the average power to derive
-the total power for the whole frame.
-\fi
 
-\dcomment{
 To control the frame recording time to be a fraction of the 16.7ms
 per-frame rendering time,
-\if 0
-we experimented with a few sampling strategies similarly as
-in~\cite{dong2009current}, including random sampling which randomly
-selects a fixed number of pixel and uniform sampling which selects
-pixels with uniform spacing. We found that uniform sampling results in
-similar accuracy as random sampling
-but has slightly lower runtime overhead due to simpler
-and more uniform memory access. We thus use uniform sampling in our
-design.
-\fi
 we apply uniform pixel sampling (experimentally found to be faster than random sampling
 yet give similar modeling accuracy) similarly as
 in~\cite{dong2009current}.
@@ -273,8 +254,9 @@ $\sqrt{K}\times\sqrt{K}$ pixels.
 The choice of the sampling ratio determines the tradeoff between
 runtime reduction and modeling error.
 We experimentally evaluate the tradeoff in the next section. NOT CORRECT. WAS RELEVANT IN NEXUS 6}
+\fi
 
-\dacomment{
+{
 On the same three phones,
 % once a frame is recorded in memory,
 Steps 1--4 takes
@@ -288,16 +270,17 @@ enhanced Android Battery (\S\ref{subsec:tool2}).
 % enhanced Android Battery (\S\ref{subsec:tool2}).
 % REMOVING THIS
 % }
-To control the Step 1--4 execution time
+To control the execution time of Steps 1--4 
 % frame recording time
-to be within a fraction of the 16.7ms ,i.e,per-frame
+to be within a fraction of the 16.7ms, \ie per-frame
 rendering time, we apply uniform pixel sampling (experimentally found to
-be faster than random sampling yet gives similar modeling accuracy) similar as to
-described in~\cite{dong2009current}. We define {\em sampling ratio $K$} as the factor
+be faster than random sampling yet gives similar modeling accuracy) similar as 
+in~\cite{dong2009current}. We define {\em sampling ratio $K$} as the factor
 of reduction: one pixel is chosen from the center of each grid of
 $\sqrt{K}\times\sqrt{K}$ pixels. The choice of the sampling ratio determines
 the tradeoff between runtime reduction and modeling error. We experimentally
-evaluate the tradeoff in the next section. ADDED}
+evaluate the tradeoff in the next section.
+}
 
 \if 0
 \subsubsection{A user-level online tool}

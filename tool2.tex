@@ -58,14 +58,12 @@ This clearly shows that the battery app is not tuned to distinguish between dark
 and can't adequately estimate the dark mode power.
 \fi
 
-% What we did ?
 \paragraph{Android Battery+.}
 We enhanced Android Battery by replacing its
-% app-oblivious and content-oblivious
 simple screen energy calculation
 with a new screen energy estimator that uses our new content-based OLED power model
 and further accounts the screen energy to individual apps.
-We call the new version Battery+.
+We call the new version Android Battery+.
 %  The tool we created was combined into the Android Battery to provide the screen
 %  display power statistics feature  to the Android Battery.
 %  As Battery+ is screen content aware it can distinguish between dark and light mode.
@@ -75,8 +73,9 @@ We call the new version Battery+.
 %  Further, the tool estimates the residual battery life when running the
 % app under different screen brightness level.
 
+\if 0
 \dcomment{
-Like Android Battery, Battery+ estimates the screen energy in real
+Like Android Battery, Android Battery+ estimates the screen energy in real
 time. It faces two main design challenges.
 The first is the computational
 overhead in recording every displayed frame and calculating per-frame
@@ -90,24 +89,34 @@ which records the app on-screen
 time and implements OLED power and energy calculation per app.
 In total, Battery+ is implemented with 1200 LOC in the Android framework and
 20 LOC in the Settings app. REMOVED THIS. DESCRIPTION NEXT PARAGRAPH}
+\fi
+
 
 \dacomment{
-Like Android Battery, Battery+ estimates the screen energy in real
-time. Real time screen energy estimation suffers from the computational
-overhead because of recording every displayed frame and calculating
-per-frame display power draw.
-To control the computational overhead, we have applied pixel sampling to both
-screen recording and power calculation (\S\ref{subsec:appl}).
-We implemented Battery+, by modifying {\small `screenrecord`} command code,
-as a 1000 LOC C++ program  which runs via {\small `adb shell`} interface.
-Further, we incorporated Battery+ into Pixel 2's Android framework for providing
-an interface via settings app.
-To account screen energy for individual apps, we modified the Activity manager which
-informs the modified Battery Stats of each app running on the screen.
-Modified Battery Stats records the app on-screen time and estimates
-OLED power draw and energy calculations per app.
-In total, the Android Battery+ is implemented with 1200 LOC in
-the Android framework and 20 LOC in the Settings app. ADDED}
+Like Android Battery, Android Battery+ estimates the screen energy in real
+time. 
+%  Real time screen energy estimation suffers from the computational
+% overhead because of recording every displayed frame and calculating
+% per-frame display power draw.
+% To control the computational overhead, we have applied pixel sampling to both
+% screen recording and power calculation (\S\ref{subsec:appl}).
+We first implemented the new screen energy computation module 
+by modifying {\small `screenrecord`} command code,
+as a 1000 LOC C++ program that runs via {\small `adb shell`} interface.
+% To invoke this prorgram from Android Battery+, 
+%    Further, we incorporated Battery+ into Pixel 2's Android framework for providing
+%  an interface via settings app.
+% To account screen energy for individual apps, 
+We then modified the Activity manager, Battery Stats, and the settings app.
+In particular, we modified the Activity manager to
+inform the modified Battery Stats     of each app running on the screen.
+The modified Battery Stats then records the app on-screen time and estimates
+the OLED power draw and energy drain per app by calling the screen energy module.
+In total, the Android Battery+ is implemented by adding 1200 LOC to
+the Android framework and 20 LOC in the Settings app.
+Note that we could not implement Android Battery+ on Moto Z3 as
+its framework is not open-sourced.
+}
 
 \if 0
 The mobile display has a large number of pixels.For example Nexus 6
@@ -250,7 +259,7 @@ We first measured the overhead of Battery+, while running the camera app on
 screen for 10 minutes.  As reported in \S\ref{subsec:appl}, at a pixel
 sampling ratio of 100, the latency of per frame recording is
 4ms, 3ms, and 2ms on the three phones respectively while incurring less than
-1\% \comment{we said 1\%??? FIXED}
+1\% 
 additional prediction error.  We then isolated the modified Battery Stats
 process and measured its CPU usage; the average CPU utilization is
 only 1.12\%, 0.92\%, and 0.59\% for Pixel 2, Moto Z3, and Pixel 4 respectively.
@@ -278,7 +287,6 @@ higher than the total phone power draw, on the three phones, respectively.
 as shown by the same non-OLED power draw, \ie the difference 
 between the total phone power draw and the OLED display power draw,
 under light and dark modes.
-\comment{Battery+ is off for Pixel 4??? FIXED}
 \if 0
 (2) Android Battery overestimates screen energy vs. Battery+ is
 % by 5.0$\times$ (281 mAh vs. 56.2 mAh under Battery+) under dark mode
