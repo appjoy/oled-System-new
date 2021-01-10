@@ -542,7 +542,8 @@ Our above findings have two implications.
 First, when recording a frame as an input to the OLED power model,
 we also need to record the system brightness level so that
 the output of the pixel value-based power prediction
-can be scaled linearly to the system brightness level.
+can be scaled properly.
+% linearly to the system brightness level.
 Second, OLED display power at a reduced slider brightness level (\eg 30\%)
 actually drains much less power (\eg 9/255 = 3.5\% for Pixel 4 as shown in Figure~\ref{fig:brightnessslider_brightnesslevel}), due to the logarithmic relationship
 between the two (slider and system) brightness levels.
