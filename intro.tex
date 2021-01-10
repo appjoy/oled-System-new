@@ -7,7 +7,7 @@ Optimizing the battery drain of mobile apps helps to extend the
 mobile device battery life which is critical to the mobile experience
 of the 5+ billion phone users (over half are smartphones)~\cite{gsma2019}.
 Optimizing the battery drain of mobile
-apps requires optimizing the battery drain of all major power-hungry
+apps requires optimizing the battery drain of all power-hungry
 device components, including CPU, GPU, display, WiFi/LTE,
 GPS, and hardware decoder. After over a decade of phone evolution, display
 has remained as one of the major power-draining components in modern
@@ -33,7 +33,7 @@ devices is the recent wide adoption of
 dark-themed color contents, known as dark mode,\footnote{An old idea first supported in modern OS as early as 1991 (Apple's System 7 OS).}
 % which are known to draw much less power than white-theme color contents. 
 %  the mobile industry did not catch on until late 2018
-by both Android and iOS which announced dark mode as one of major
+by both Android and iOS which added dark mode as one of major
 features in their 2019 OS
 update~\cite{googledevsummit2018,appleaccouncedarkmode}, and app
 vendors who quickly rolled out dark mode UI options in their latest
@@ -106,7 +106,7 @@ three recent generations, Pixel 2 (2017), Moto Z3 (2018), and Pixel 4 (2019).
 %
 Our measurement study reveals
 unique power draw behavior of modern phone OLED displays: (1) The OLED
-display power draw violates the superposition property assumed
+display power draw violates the superposition property assumed and observed
 in~\cite{dong2009current}, \eg the power draw in displaying
 the white color can be far less than the simple summation of those in
 displaying the three base colors: red, green and blue (after removing
@@ -221,7 +221,7 @@ Battery+ shows that (1) switching from light to dark mode
 significantly reduces the average OLED power draw across all apps,
 though the reduction varies significantly among the apps and the phones, ranging
 between 4\%-34\% (average 24\%), 12\%-35\% (average 25\%), and
-12\%-24\% (average 19\%) for 50\% brightness level,
+12\%-24\% (average 19\%) at the 50\% brightness level,
 %    , and
 %    48\%-67\% (average 58\%), 
 %    64\%-81\% (average 72\%),
@@ -230,7 +230,7 @@ on the 3 phones, respectively.  (2) The significant OLED power reduction
 translates into moerate reduction in the total phone power draw, ranging between
 -3\%-15\% (average 7\%),
 -12\%-13\% (average 5\%),
-and 0\%-15\% (average 10\%) under 50\% brightness level
+and 0\%-15\% (average 10\%) at the 50\% brightness level
 %  2\%-29\% (average 15\%),
 %  16\%-46\% (average 32\%),
 %  and 24\%-59\% (average 43\%)
