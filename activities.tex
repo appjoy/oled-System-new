@@ -17,13 +17,13 @@ activities, each implementing a user interface for interacting
 with the app. Hence, to add dark mode to an app, the developer's
 effort largely boils down to implementing dark mode for each
 activity. In this section, we show how to use the PFOP profiler to
-gain insight into the power saving for the major activities in the set of Google
+gain insight into the power saving for major activities in the set of Google
 apps.
 
 \paragraph{Methodology.}
 We manually navigate each of the apps to stop at all its major
 activities when running under dark mode and light mode, and run
-the \name profiler to measure the display power draw.
+the \name profiler to analyze the display power draw.
 In all, we studied 34 activities of the 6 apps, with
 many app-specific findings.
 % and capture the screen via screencap. We then apply our P-LMLR
@@ -169,7 +169,7 @@ Due to page limit, we will only present the case study for Google News.
 Google News
 % and YouTube
 represents the class of apps whose main
-activities are rich in pre-generated graphical objects, such as images
+activities are rich in pre-generated graphical objects such as images
 (static) or videos (dynamic). Since the graphical objects typically
 stay the same in light and dark modes, the OLED power saving of
 such activities depends on the portion of the screen occupied by such
@@ -299,7 +299,7 @@ part 2 and part 3 which switch from white color to near-dark color
 (with RGB values around 50).
 
 As expected, the embedded image stays the same
-in the two modes and contribute to no OLED power saving. 
+in the two modes and contributes to no OLED power saving. 
 The reason that we do not see any obvious peak in the histogram that corresponds to
 the image (24.9\% of the screen size) is that 
 the image has continuous textures which make the histogram spread over
