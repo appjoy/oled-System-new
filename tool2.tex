@@ -63,7 +63,7 @@ We enhanced Android Battery by replacing its
 simple screen energy calculation
 with a new screen energy estimator that uses our new content-based OLED power model
 and further accounts the screen energy to individual apps.
-We call the new version Android Battery+.
+We call the new version Android Battery+, or Battery+ for short.
 %  The tool we created was combined into the Android Battery to provide the screen
 %  display power statistics feature  to the Android Battery.
 %  As Battery+ is screen content aware it can distinguish between dark and light mode.
@@ -255,7 +255,8 @@ for 30\%, 50\% and 100\% brightness levels.
 \end{figure}
 
 \paragraph{Evaluation.}
-We first measured the overhead of Battery+, while running the camera app on
+We first measured the overhead of Battery+'s
+screen energy module, while running the camera app on
 screen for 10 minutes.  As reported in \S\ref{subsec:appl}, at a pixel
 sampling ratio of 100, the latency of per frame recording is
 4ms, 3ms, and 2ms on the three phones respectively while incurring less than
@@ -264,7 +265,8 @@ additional prediction error.  We then isolated the modified Battery Stats
 process and measured its CPU usage; the average CPU utilization is
 only 1.12\%, 0.92\%, and 0.59\% for Pixel 2, Moto Z3, and Pixel 4 respectively.
 
-Next, we compared Battery+ with Android Battery in terms of accuracy.
+Next, we compared the screen energy accuracy by 
+Battery+ and Android Battery.
 We ran the calculator app for 10 mins twice, first in light mode and then in
 dark mode, under full screen brightness.
 % Battery+ captures the screen and total energy consumed. 
