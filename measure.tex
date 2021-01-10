@@ -224,7 +224,6 @@ we measure the OLED power consumed by
 3 2-channel colors (yellow, magenta and cyan)
 and the 3-channel color white, with varying intensities (sRGB values from 0 to 255).
 
-\paragraph{Findings.}
 \if 0
 \dcomment {
 Figures~\ref{fig:initial_evaluation_2}(a)--\ref{fig:initial_evaluation_2}(c)
@@ -265,6 +264,7 @@ These results show that
 CHANGED THIS BECAUSE THE MAXIMUM ERROR IS NOT AT Linear RGB 1.0}
 \fi
 
+\paragraph{Findings.}
 {
 Figures~\ref{fig:initial_evaluation_2}(a)--\ref{fig:initial_evaluation_2}(c)
 show the measured OLED display power. Due to the gamma-correction in sRGB standard,
@@ -272,11 +272,11 @@ the subpixel power draw is known to be nonlinear in the sRGB values.
 Thus in this paper, we transform the sRGB format into the linear format, known as Linear RGB~\cite{gammaCorrection1} ({$Linear RGB = (sRGB/256)^{2.2}$}),
 and plot all OLED power functions w.r.t. Linear RGB values.
 Figures~\ref{fig:initial_evaluation_2}(a)--\ref{fig:initial_evaluation_2}(c) show that
-(1) the subpixel power draw for the 3 base colors are linear corresponding to the Linear RGB values;
+(1) the subpixel power draw for the 3 base colors are linear in the Linear RGB values;
 (2) the subpixel power draw are not additive -- 
-the difference between sum of the subpixel power draw (without duplicating base power)
+the difference between their sum (without duplicating base power)
 and the measured power draw for white
-varies across the color intensity reaching
+varies across the color intensity, reaching
 a maximum of 92\%, 66\% and 43\% at
 0 (14), 0.04 (59) and 0.01 (25) linear RGB values (sRGB values) for the 3 phones, respectively.
 % widens for Moto Z3 with color intensity but decreases for Pixel 2 and Pixel 4.
@@ -500,6 +500,56 @@ differently at different color intensities.
 
 Modern smartphones come with a hardware button or software brightness
 slider that allows users to directly adjust the display brightness
+level, \eg between 0\% -- 100\%.  We found that {\em brightness level
+  adjustment by either scheme does not change frame pixel values
+  recorded in the frame buffer}, 
+suggesting that some color transformation
+caused by the slider brightness level happens after the frame
+buffer, \ie in the hardware composer (Figure~\ref{fig:arch}). 
+Hence an OLED power model based on the frame pixel values needs to be
+adjusted for the display brightness level.
+However, our measurements also showed that 
+the OLED display power draw does not scale linearly in displaying a same image
+with the slider brightness level.
+
+% From reading AOSP source code~\cite{sourcecode:brightness1,sourcecode:brightness2},
+We searched the kernel exported hardware info \comment{is this accuract to say?}
+and  found that for Android Pie and later vesions, % (\eg Pixel 2 and Moto Z3),
+the brightness slider value (0\% to 100\%) is 
+%   not linearly correlated with 
+transformed to the system screen brightness value (0 to 255),
+which can be read from system variable {\small \tt
+  /sys/class/leds/lcd-backlight/brightness} on Pixel 2 and Moto Z3
+and {{\small \tt /sys/class/backlight
+    /panel0-backlight/brightness} on Pixel 4}.  
+Second, we experimentally 
+% correlated the two brightness levels and 
+found that the slider brightness level is mapped 
+to the system brightness level via a logarithmic function.
+%   Moto Z3 and Pixel 4 by plotting the brightness slider value and 
+%   system variable that would lead to the same OLED power draw.
+as shown in Figure~\ref{fig:brightnessslider_brightnesslevel}.
+Finally, we experimentally confirmed that the OLED display current
+scales linearly with the system brightness value in displaying the 7
+monochromatic colored images (3 base colors, 3 2-channel colors and
+white).
+
+\forjnl{as shown in Figure~\ref{fig:brightnessslider_brightnesslevel}.
+}
+
+Our above findings have two implications.
+First, when recording a frame as an input to the OLED power model,
+we also need to record the system brightness level so that
+the output of the pixel value-based power prediction
+can be scaled linearly to the system brightness level.
+Second, OLED display power at a reduced slider brightness level (\eg 30\%)
+actually drains much less power (\eg 9/255 = 3.5\% for Pixel 4 as shown in Figure~\ref{fig:brightnessslider_brightnesslevel}), due to the logarithmic relationship
+between the two (slider and system) brightness levels.
+
+
+\if 0
+Modern smartphones come with a hardware button or software brightness
+slider that allows users to directly adjust the display brightness
 level, \eg between 0\% -- 100\%.  We find that {\em brightness level
   adjustment via either scheme does not change frame pixel values
   recorded in the frame buffer}, suggesting some color transformation
@@ -560,6 +610,7 @@ in displaying
 %  varied this value in steps of 10 and noted the current drawn separately on
 the 7 monochromatic colored images (3 base colors, 3 2-channel colors and white).
 The results are omitted due to page limit.
+\fi
 % We observed that the display current changes linearly,
 \forjnl{as shown in Figure~\ref{fig:brightnesss_phones}.
   }
