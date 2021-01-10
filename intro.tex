@@ -179,8 +179,9 @@ identifying all the UI components of a displayed frame, \eg an app
 activity.
 % , in order to calculate the OLED power draw by each UI component.
 We design \name to use only standard Android services so
-it is portable to any unmodified Android versions
-{without superuser access}.  Battery+ replaces
+it is portable to any unmodified Android versions.
+% {without superuser access}.  
+Battery+ replaces
 the simple screen energy accounting of Android Battery with an
 accurate, per-app screen power and energy estimator.  Like Android
 Battery, it runs in real time in the background and thus needs to have low
@@ -272,9 +273,11 @@ We summarize the contributions of our study as follows:
     power models proposed in the past decade.
   \item We propose a new piecewise OLED power model and experimentally
     show that it reduces the prediction error of the prior art by 
-    \pixeltwoerrorreduction,
-    \motozthreeerrorreduction, and
-    \pixelfourerrorreduction
+%    \pixeltwoerrorreduction,
+%    \motozthreeerrorreduction, and
+%    \pixelfourerrorreduction
+5.1$\times$, 5.5$\times$ and 4.4$\times$ for dark mode
+and 4.2$\times$, 2.3$\times$ and 2.5$\times$ for light mode 
     on Pixel 2, Moto Z3, and Pixel 4, respectively.
   \item Using our new model, we develop a per-frame OLED
     power profiler that enables developers to instantly understand the
