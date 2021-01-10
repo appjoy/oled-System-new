@@ -57,7 +57,7 @@ Since it is hard to visualize the measured $P_i(R_i, G_i,B_i)$ in the
 $G$ value (at 112), and plot the measured power value for the 2-D R-B space (in
 linear RGB values) in Figures~\ref{fig:initial_monotonicity}(a)-(c) for
 the three phones, where the height of the top surface shows the display power
-draw values.  We see that the surface does not fall into a plane! This is
+draw values.  We see that the surface is not flat, \ie it does not fall into a plane! This is
 the key reason why any particular linear combination of subpixel power functions
 (which are linear in the subpixel color) cannot approximate
 the pixel power behavior well. In addition,
@@ -163,9 +163,10 @@ and denote the new models as P-LMLR (piecewise LMLR) and P-NLM (piecewise NLM):
 
 \vspace{-0.1in}
 \paragraph{Handling color transformation.}
-{For the cases with color transformations, \ie due to brightness level change,
+{For the cases with color transformations, \ie due to 
+% brightness level change,
 %(on Pixel 2 and Moto Z3)
-color mode change, or color correction,
+color mode change or color correction,
  if  the color transformation, \ie the color matrix, is known,
  the new power model can be derived from the default power model;
  otherwise, the new power model needs to be experimentally generated.
