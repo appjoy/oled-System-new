@@ -168,7 +168,7 @@ the pixel color value.
 
 To use an OLED power model, the screen needs to be recorded and
 fed into the model.  Ideally, we want to record the final frame 
-sent to the display.  However, Android only provides APIs that record
+sent to the display.  However, Android only provides interfaces that record
 the frame buffer (via virtual display)  which will miss possible
 color transformation in the hardware composer.  We discuss the implications
 on OLED power modeling in \S\ref{subsec:brightness} and
