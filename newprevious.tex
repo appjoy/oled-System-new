@@ -389,7 +389,7 @@ of the same 4 colors, yellow, magenta and cyan, and white:
 \end{eqnarray}
 }
 \noindent
-\comment{I wonder why the coefficients for the 1st 3 terms so different from the LMLR model}
+%
 Note that the coefficients for the nonlinear terms are very small (close to but not equal zero)
 due to the larger magnitudes of the nonlinear terms.
 We again plot the predicted power using the derived non-linear model
@@ -687,16 +687,17 @@ Since prior-art models cannot even approximate 4 monochromatic
 colors well, we can expect that they will have high prediction errors
 in the entire 3-D color space. We further measured
 the prediction error of the {LMLR} model at all RGB values of $(x, y,
-z)$ where $x, y, z$ spans all multiples of 16. The results, shown
+z)$ where $x, y, z$ span all multiples of 16. The results, shown
 in Figure~\ref{fig:error_wrt_linear}, confirm that the {LMLR} model
 exhibits high error across the color space on all three phones,
 with a mean absolute prediction error of 6.90\%, 10.35\%, 7.10\%,
 and 90th percentile absolute error of  15.65\%, 22.07\%, 16.19\%,
 respectively, for the three phones.
 Interestingly, the error is lower on Pixel 2 and Pixel 4, which can be explained
-by their least violation of superposition property as shown in Figure~\ref{fig:initial_evaluation_2}.
-Similarly, we observed that the {NLM} model also
-exhibits high error across the color space on all three phones,
+by their less violation of the superposition property as shown in Figure~\ref{fig:initial_evaluation_2}.
+Compared to LMLR, 
+we observed that the {NLM} model 
+exhibits similarly high error across the color space on all three phones,
 with a mean absolute prediction error of 6.79\%, 12.94\%, 6.02\%,
 and 90th percentile absolute error of  15.45\%, 28.75\%, 13.38\%,
 respectively, for the three phones.
