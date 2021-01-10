@@ -92,8 +92,7 @@ In total, Battery+ is implemented with 1200 LOC in the Android framework and
 \fi
 
 
-\dacomment{
-Like Android Battery, Android Battery+ estimates the screen energy in real
+Like Android Battery, Battery+ estimates the screen energy in real
 time. 
 %  Real time screen energy estimation suffers from the computational
 % overhead because of recording every displayed frame and calculating
@@ -112,11 +111,11 @@ In particular, we modified the Activity manager to
 inform the modified Battery Stats     of each app running on the screen.
 The modified Battery Stats then records the app on-screen time and estimates
 the OLED power draw and energy drain per app by calling the screen energy module.
-In total, the Android Battery+ is implemented by adding 1200 LOC to
+In total, Battery+ is implemented by adding 1200 LOC to
 the Android framework and 20 LOC in the Settings app.
-Note that we could not implement Android Battery+ on Moto Z3 as
+Note that we could not implement Battery+ on Moto Z3 as
 its framework is not open-sourced.
-}
+
 
 \if 0
 The mobile display has a large number of pixels.For example Nexus 6
@@ -326,6 +325,7 @@ dark mode and reports the same screen energy under the two modes;
 by ??$\times$ (??mAh vs ??mAh under Battery+) under dark mode
 and ??$\times$ (??mAh vs ??mAh under Battery+) under light mode,
 which are even higher the total app energy.
+\fi
 
 \if 0
 estimates total power consumed of about 23.4 mAh in dark and 64.2
@@ -336,7 +336,7 @@ indicating that these estimations are not accurate.  In addition to
 total power the screen power estimated by the Battery+ is 15.3 mAh
 for dark and 51.0 mAh for light mode.  From the we can approximate
 the non-screen component which is 8.1 mAh for dark and 13.2 mAh for
-light mode.  \fi
+light mode.  
 \fi
 
 \if 0
