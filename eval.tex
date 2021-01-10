@@ -202,16 +202,17 @@ slowly. The additional error predicted is less than 1\% for the
 
 \paragraph{Frame recording and power calculation time.}
 Figure~\ref{fig:smapling_error} right shows how the sampling
-ratio affects the frame recording time (T1) and power calculation
-time (T2) in applying the P-LMLR model to
-calculate the power for a given frame. \comment{the figure only has 1 time, not T1 T2???}
+ratio affects the total time (frame recording time (T1) 
+plus power calculation
+time (T2)) in applying the P-LMLR model to
+calculate the power for a given frame.
 %   {
 %   This contains the frame capture and model application overhead.
 %   Without sampling, the computation takes 8.3 ms, 4.4 ms and 4.1 ms on
 %   the 3 phones which less than 10\% on the total time taken.
 %   }
 We observe that for all three
-phones, the total time as well as individual times are inversely proportional to the
+phones, the total time and two individual times not shown are inversely proportional to the
 sampling ratio. In particular, without sampling, the frame recording
 time are 10ms, 10ms, and 4ms
 and
@@ -220,7 +221,7 @@ the power calculation time are 44ms, 48ms and 42ms on
 while with a sampling ratio of 100, the recording time are reduced to
 1ms, 1ms, and 1ms, and power calculation time are reduced to
 4ms, 3ms, and 2ms, respectively.
-We note the long frame recording time is due to delay in pulling data from frame buffer
+We note the long frame recording time is due to the delay in pulling data from frame buffer
 and does not keep CPU busy.
 As we will show in \S\ref{subsec:tool2},
 the average CPU utilization of power calculation
@@ -396,7 +397,7 @@ Table~\ref{tab:100_images}
 summarizes the average prediction error by LMR, NLM, P-LMLR, and P-NLM
 for the activity screenshots with 100x sampling on the three phones.
 The error for LMLR and NLM varies across the phones,
-possibly because their error varies in different regions of the color space
+because their error for individual pixel colors vary in different regions of the color space
 on different phones (Figure~\ref{fig:initial_evaluation_2})
 and different images have different distribution of pixel colors.
 In contrast, the prediction errors of P-NLM and P-LMLR are
