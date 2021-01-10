@@ -515,9 +515,9 @@ However, our measurements also showed that
 the OLED display power draw does not scale linearly in displaying a same image
 with the slider brightness level.
 
-% From reading AOSP source code~\cite{sourcecode:brightness1,sourcecode:brightness2},
-We searched the kernel exported hardware info \comment{is this accuract to say?}
-and  found that for Android Pie and later vesions, % (\eg Pixel 2 and Moto Z3),
+From reading AOSP source code~\cite{sourcecode:brightness1,sourcecode:brightness2},
+%We searched the kernel exported hardware info \comment{is this accuract to say?}
+we found that for Android Pie and later vesions, % (\eg Pixel 2 and Moto Z3),
 the brightness slider value (0\% to 100\%) is 
 %   not linearly correlated with 
 transformed to the system screen brightness value (0 to 255),
