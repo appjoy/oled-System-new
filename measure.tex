@@ -14,8 +14,9 @@ the OLED power draw behavior on three modern smartphones.
 %
 \paragraph{Methodology.}
 We conduct our study on three smartphones from three recent
-generations, Pixel 2, Moto Z3, and Pixel 4,
-released in 2017, 2018, and 2019, respectively, as listed in
+generations, Pixel 2 (2017), Moto Z3 (2018), and Pixel 4 (2019),
+% released in 2017, 2018, and 2019, respectively, 
+as listed in
 Table~\ref{tab:phones}.
 
 \begin{table}[tp]
@@ -98,17 +99,18 @@ The images used will have the same dimension as the screen, \eg
 %    the static image is displayed and when the screen is off but CPU is
 %    idle (using a wakelock).
 First, we measure the CPU idle power 
-as the power draw when the screen is off and the CPU is idle using a wakelock.
+as the power draw when the screen is off and the app is running using a wakelock.
 Second, we measure the OLED dark screen power 
 by displaying a dark screen with all the pixel values set to zero
-(during which time the CPU is 99\% idle)
-and then subtract the CPU idle power (from Step 1) from the measured phone power.
+and then subtract the CPU idle power from Step 1) from the measured phone power.
 Finally, to measure the power draw by all the colored pixels,
-\ie {$\sum_{i=0}^{n}{P_i}$} in Eqn.~1,
-in displaying a static image (during which time the CPU is also 99\% idle),
- we subtract both the dark
-screen power and the CPU idle power
-from the phone power measured in displaying the color static image.
+\ie\ {$\sum_{i=0}^{n}{P_i}$} in Eqn.~1,
+in displaying a static image,
+we measure the phone power
+and subtract from it both the dark screen power and the CPU idle power.
+The above process is accurate
+as in all three steps, the CPU utilization remains steady at 1.6\%, 3.1\%,
+and 1.2\% busy on Pixel 2, Moto Z3, and Pixel 4, respectively.
 %   \forjnl{Figure~\ref{fig:base_current} shows example power meter readings
 %   of the two power values.}
 \if 0
