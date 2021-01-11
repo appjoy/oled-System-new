@@ -11,16 +11,19 @@ insight that the OLED power draw is relatively smooth within small
 subgrids of the large 3-D sRGB color space, and hence each can be fitted
 well via linear regressions on the linear subpixel power functions.
 Our new OLED power model reduces the prediction error of prior models
-from 12.8\% to 3.0\% on average across 3 recent generations of Android
-phones.
+by
+    5.1$\times$, 5.5$\times$ and 4.4$\times$ for dark mode
+    and 4.2$\times$, 2.3$\times$ and 2.5$\times$ for light mode
+% from 12.8\% to 3.0\% on average 
+across 3 recent generations of Android phones.
 Using the new OLED power model, we developed two OLED power
 profiling tools: a per-frame OLED power profiler and an enhanced Android Battery.
 % that accurately accounts for per-app screen energy.
 %
 Further, we performed to our knowledge the first power saving
-measurement of the  dark mode for a set of 6 preinstalled Google
+measurement of the  dark mode for a set of popular Google
 apps to showcase how the two tools can help developers
-and phone users to understand and optimize the battery drain of
+and phone users to optimize the battery drain of
 different app GUI designs.
 %We plan to open source both tools to the Android developers community.
 The \appwithlink app
