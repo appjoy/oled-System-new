@@ -109,8 +109,8 @@ in displaying a static image,
 we measure the phone power
 and subtract from it both the dark screen power and the CPU idle power.
 The above process is accurate
-as in all three steps, the CPU utilization remains steady at 1.6\%, 3.1\%,
-and 1.2\% busy on Pixel 2, Moto Z3, and Pixel 4, respectively.
+as in all three steps, the CPU utilization remains steady at 2.5\%, 4.9\%,
+and 1.7\% busy on Pixel 2, Moto Z3, and Pixel 4, respectively.
 %   \forjnl{Figure~\ref{fig:base_current} shows example power meter readings
 %   of the two power values.}
 \if 0
@@ -370,7 +370,7 @@ Table~\ref{tab:initial_evaluation_3} lists a few samples for each
 phone, where each row lists the power draw for two color vectors, the
 second being canonically larger yet drawing less power than the first.
 For example, on Pixel 4, the OLED power draw for RGB value (32, 16, 16) should
-be higher than that for (32, 0, 16). Instead,
+be higher than that for (32, 16, 0). Instead,
 our measured value for the former, 89mA, 
 is 1.09X
 lower than that for the later, 97mA.
@@ -403,33 +403,33 @@ differently at different color intensities.
 		\hline
                 \multicolumn{5}{c }{Pixel 2} \\
 		\hline
-		1 chl to & ( 176, 0, 0) & 91 & ( 176, 0, 64) & 83 \\
-		 2 chl & ( 0, 96, 0) & 79 & ( 0, 96, 16) & 70 \\
-		 & ( 0, 0, 16) & 56 & ( 0, 16, 16) & 48 \\
+		1 chl to & ( 176,   0,   0) &  91 & ( 176,   0,  32) &  74 \\
+		2 chl    & (   0,  16,   0) &  56 & (   0,  16,  16) &  48 \\
+		         & (   0,   0,  48) &  56 & (  32,   0,  48) &  43 \\
 		\hline
-		2 chl to & ( 112, 192, 0) & 146 & ( 112, 192, 32) & 131 \\
-		 3 chl & ( 112, 0, 80) & 82 & ( 112, 16, 80) & 68 \\
-		 & ( 0, 48, 48) & 71 & ( 48, 48, 48) & 53 \\
+		2 chl to & ( 112,  80,   0) &  82 & ( 112,  80,  16) &  68 \\
+		3 chl    & ( 112,   0, 192) & 146 & ( 112,  32, 192) & 131 \\
+		         & (   0,  48,  48) &  71 & (  48,  48,  48) &  53 \\
 		\hline
 		\multicolumn{5}{c }{Moto Z3} \\
 		\hline
-		1 chl to & ( 240, 0, 0) & 230 & ( 240, 0, 64) & 225 \\
-		 2 chl & ( 0, 224, 0) & 254 & ( 0, 224, 32) & 247 \\
-		 & ( 0, 0, 192) & 135 & ( 16, 0, 192) & 133 \\
+		1 chl to & ( 240,   0,   0) & 230 & ( 240,   0,  32) & 220 \\
+		2 chl    & (   0, 192,   0) & 135 & (  16, 192,   0) & 133 \\
+		         & (   0,   0, 240) & 288 & (  32,   0, 240) & 273 \\
 		\hline
-		2 chl to  & ( 240, 240, 0) & 378 & ( 240, 240, 80) & 357 \\
-		3 chl & ( 192, 0, 224) & 246 & ( 192, 48, 224) & 220 \\
-		 & ( 0, 160, 224) & 242 & ( 64, 160, 224) & 215 \\
+		2 chl to & ( 192, 224,   0) & 246 & ( 192, 224,  48) & 220 \\
+		3 chl    & ( 255,   0, 255) & 429 & ( 255,  48, 255) & 409 \\
+		         & (   0, 224, 160) & 242 & (  64, 224, 160) & 215 \\
 		\hline
 		\multicolumn{5}{c }{Pixel 4} \\
 		\hline
-		1 chl to  & ( 80, 0, 0) & 105 & ( 80, 0, 32) & 100 \\
-		2 chl & ( 0, 240, 0) & 233 & ( 32, 240, 0) & 230 \\
-		 & ( 0, 0, 224) & 173 & ( 16, 0, 224) & 172 \\
+		1 chl to & (  80,   0,   0) & 105 & (  80,   0,  16) &  97 \\
+		2 chl    & (   0,  48,   0) &  94 & (   0,  48,  16) &  91 \\
+		         & (   0,   0, 240) & 233 & (  32,   0, 240) & 230 \\
 		\hline
-		2 chl to & ( 128, 16, 0) & 113 & ( 128, 16, 16) & 109 \\
-		3 chl  & ( 32, 0, 16) & 97 & ( 32, 16, 16) & 89 \\
-		 & ( 0, 176, 192) & 234 & ( 16, 176, 192) & 229 \\
+		2 chl to & (  32,  16,   0) &  97 & (  32,  16,  16) &  89 \\
+		3 chl    & ( 128,   0,  16) & 113 & ( 128,  16,  16) & 109 \\
+		         & (   0, 192, 176) & 234 & (  16, 192, 176) & 229 \\
 		\hline
 	\end{tabular}
          }

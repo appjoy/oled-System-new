@@ -110,6 +110,7 @@ steps: decomposition of the color space, data collection, and model
 derivation for each sub color space.
 
 \begin{figure}[tp]
+    \centering
 	\includegraphics[width=0.35\textwidth]{./figure/004b_Cube_Model.png}
         \vspace{-0.1in}
 	\caption{A 16$\times$16$\times$16 subgrid in the 3-D sRGB color space.}
@@ -153,14 +154,15 @@ and denote the new models as P-LMLR (piecewise LMLR) and P-NLM (piecewise NLM):
   P^{grid_j}_i &= e_1^j\cdot f(R_i) + e_2^j\cdot g(G_i) + e_3^j\cdot h(B_i) + \label{eq:second_order_variable} \\
 &  e_4^j\cdot f(R_i)g(G_i) +
   e_5^j\cdot f(R_i)h(B_i) +
-  e_6^j\cdot g(G_i)h(B_i) +
-  e_7^j \nonumber
+  e_6^j\cdot g(G_i)h(B_i) + \nonumber \\
+&  e_7^j\cdot f(R_i)g(G_i)h(B_i) +
+  e_8^j \nonumber
 \end{align}
 }
 \noindent
 %The reason we add constants $e_4^j$ and $e_^j$ is because the power odes not start from
 
-\vspace{-0.1in}
+\vspace{-0.2in}
 \paragraph{Handling color transformation.}
 {For the cases with color transformations, \ie due to 
 % brightness level change,
